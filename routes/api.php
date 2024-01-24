@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\TodolistController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::controller(TodolistController::class)
+    ->name('todolist.')
+    ->prefix('todolist')
+    ->group(function () {
+        Route::get('/', 'index');
+        Route::get('{todolist}', 'show');
+
+        Route::post('/', 'store');
+
+        Route::put('{todolist}', 'update');
+
+        Route::delete('{todolist}', 'destroy');
+    });

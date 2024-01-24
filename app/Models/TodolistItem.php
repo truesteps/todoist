@@ -31,6 +31,18 @@ class TodolistItem extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'todolist_id',
+        'name',
+        'description',
+        'finished_at',
+    ];
+
+    protected $casts = [
+        'id' => 'integer',
+        'todolist_id' => 'integer',
+    ];
+
     // region Relationships
 
     public function todolist(): BelongsTo

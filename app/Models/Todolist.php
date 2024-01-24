@@ -28,6 +28,15 @@ class Todolist extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $fillable = [
+        'name',
+        'description',
+    ];
+
+    protected $casts = [
+        'id' => 'integer',
+    ];
+
     // region Relationships
 
     public function todolist_items(): HasMany
