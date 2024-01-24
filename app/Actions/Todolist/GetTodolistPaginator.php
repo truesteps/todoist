@@ -16,9 +16,6 @@ class GetTodolistPaginator
     public function handle(): LengthAwarePaginator
     {
         return Todolist::query()
-            ->with([
-                'todolist_items'
-            ])
             ->when($this->filters['search'] ?? null, function (Builder $query, string $search) {
                 return $query->where('name', 'like', '%' . $search . '%');
             })
