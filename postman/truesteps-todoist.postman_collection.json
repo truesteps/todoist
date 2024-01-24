@@ -209,7 +209,12 @@
 								},
 								{
 									"key": "search",
-									"value": null,
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "todolist_id",
+									"value": "1",
 									"disabled": true
 								}
 							]
@@ -288,7 +293,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Dokonaly todo\",\n    \"description\": \"<div class\\\"test\\\">toto je fakt fajny description</div>\"\n}",
+							"raw": "{\n    \"description\": \"<div class\\\"test\\\">toto je fakt fajny descriptionik</div>\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -296,14 +301,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/api/todolist-item/2",
+							"raw": "{{url}}/api/todolist-item/1",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"api",
 								"todolist-item",
-								"2"
+								"1"
 							]
 						}
 					},
