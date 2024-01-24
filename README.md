@@ -1,10 +1,6 @@
 # Todoist
 
----
-
 ## Installation
-
----
 
 Run the first shell command to install composer dependencies
 
@@ -28,8 +24,6 @@ cp .env.example .env
 ```
 
 ## ToDo
-
----
 
 - [x] basic creation of Todolists and Todolist Items
 - [ ] create factories and seeders
