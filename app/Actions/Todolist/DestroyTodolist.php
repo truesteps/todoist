@@ -4,7 +4,7 @@ namespace App\Actions\Todolist;
 
 use App\Events\Todolist\TodolistTransitioned;
 use App\Models\Todolist;
-use Http\Exception\RuntimeException;
+use http\Exception\RuntimeException;
 use Throwable;
 
 class DestroyTodolist

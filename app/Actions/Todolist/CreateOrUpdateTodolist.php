@@ -5,7 +5,7 @@ namespace App\Actions\Todolist;
 use App\Events\Todolist\TodolistTransitioned;
 use App\Events\Todolist\TodolistUpdated;
 use App\Models\Todolist;
-use Http\Exception\RuntimeException;
+use http\Exception\RuntimeException;
 
 class CreateOrUpdateTodolist
 {
