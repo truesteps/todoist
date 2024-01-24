@@ -14,6 +14,9 @@ class TodolistController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @param TodolistRequest $request
+     * @return JsonResponse
      */
     public function index(TodolistRequest $request): JsonResponse
     {
@@ -24,6 +27,9 @@ class TodolistController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @param TodolistCreateRequest $request
+     * @return JsonResponse
      */
     public function store(TodolistCreateRequest $request): JsonResponse
     {
@@ -36,6 +42,9 @@ class TodolistController extends Controller
 
     /**
      * Display the specified resource.
+     *
+     * @param Todolist $todolist
+     * @return JsonResponse
      */
     public function show(Todolist $todolist): JsonResponse
     {
@@ -46,6 +55,10 @@ class TodolistController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
+     * @param TodolistCreateRequest $request
+     * @param Todolist $todolist
+     * @return JsonResponse
      */
     public function update(TodolistCreateRequest $request, Todolist $todolist): JsonResponse
     {
@@ -58,6 +71,9 @@ class TodolistController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     *
+     * @param Todolist $todolist
+     * @return JsonResponse
      */
     public function destroy(Todolist $todolist): JsonResponse
     {

@@ -24,6 +24,7 @@ services:
         depends_on:
             - mysql
             - redis
+            - soketi
     mysql:
         image: 'mysql/mysql-server:8.0'
         ports:
@@ -48,6 +49,28 @@ services:
                 - '-p${DB_PASSWORD}'
             retries: 3
             timeout: 5s
+    soketi:
+        image: 'quay.io/soketi/soketi:0.17-16-alpine'
+        ports:
+            - '${SOKETI_PORT:-6001}:6001'
+            - '${SOKETI_METRICS_SERVER_PORT:-9601}:9601'
+        environment:
+            APP_MANAGER_DRIVER: 'array'
+            DEFAULT_APP_ID: '${PUSHER_APP_ID}'
+            DEFAULT_APP_KEY: '${PUSHER_APP_KEY}'
+            DEFAULT_APP_SECRET: '${PUSHER_APP_SECRET}'
+            DB_REDIS_HOST: 'redis'
+            DB_REDIS_PORT: 6379
+            DB_REDIS_DB: 0
+            DB_REDIS_PREFIX: 'soketi'
+            QUEUE_DRIVER: 'redis'
+            SOKETI_DEBUG: 1
+        env_file: ./.env
+        restart: unless-stopped
+        networks:
+            - sail
+        depends_on:
+            - redis
     redis:
         image: 'redis:alpine'
         ports:

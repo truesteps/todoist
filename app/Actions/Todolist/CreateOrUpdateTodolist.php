@@ -2,8 +2,10 @@
 
 namespace App\Actions\Todolist;
 
+use App\Events\Todolist\TodolistTransitioned;
+use App\Events\Todolist\TodolistUpdated;
 use App\Models\Todolist;
-use http\Exception\RuntimeException;
+use Http\Exception\RuntimeException;
 
 class CreateOrUpdateTodolist
 {
@@ -27,7 +29,11 @@ class CreateOrUpdateTodolist
             : null;
         $this->todolist->save();
 
-        // ToDo: add ability to create todolist and immediately fill it with todolist items
+        if ($this->todolist->wasRecentlyCreated) {
+            event(new TodolistTransitioned($this->todolist));
+        } else {
+            event(new TodolistUpdated($this->todolist));
+        }
 
         return $this->todolist;
     }

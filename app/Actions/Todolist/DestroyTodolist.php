@@ -2,8 +2,9 @@
 
 namespace App\Actions\Todolist;
 
+use App\Events\Todolist\TodolistTransitioned;
 use App\Models\Todolist;
-use http\Exception\RuntimeException;
+use Http\Exception\RuntimeException;
 use Throwable;
 
 class DestroyTodolist
@@ -31,5 +32,7 @@ class DestroyTodolist
 
             throw new RuntimeException('Something went wrong while trying to delete todolist, try again later');
         }
+
+        event(new TodolistTransitioned($this->todolist));
     }
 }
