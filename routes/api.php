@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\TodolistController;
+use App\Http\Controllers\TodolistItemController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,4 +27,18 @@ Route::controller(TodolistController::class)
         Route::put('{todolist}', 'update');
 
         Route::delete('{todolist}', 'destroy');
+    });
+
+Route::controller(TodolistItemController::class)
+    ->name('todolist-item.')
+    ->prefix('todolist-item')
+    ->group(function () {
+        Route::get('/', 'index');
+        Route::get('{todolistItem}', 'show');
+
+        Route::post('/', 'store');
+
+        Route::put('{todolistItem}', 'update');
+
+        Route::delete('{todolistItem}', 'destroy');
     });

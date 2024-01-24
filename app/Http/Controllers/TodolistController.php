@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Actions\Todolist\CreateOrUpdateTodolist;
 use App\Actions\Todolist\DestroyTodolist;
 use App\Actions\Todolist\GetTodolistPaginator;
-use App\Http\Requests\TodolistCreateRequest;
-use App\Http\Requests\TodolistRequest;
+use App\Http\Requests\Todolist\TodolistCreateRequest;
+use App\Http\Requests\Todolist\TodolistRequest;
 use App\Models\Todolist;
 use Illuminate\Http\JsonResponse;
 

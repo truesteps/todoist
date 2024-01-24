@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Actions\Todolist;
+namespace App\Actions\TodolistItem;
 
-use App\Models\Todolist;
+use App\Models\TodolistItem;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class GetTodolistPaginator
+class GetTodolistItemPaginator
 {
     public function __construct(public array $filters = [])
     {
@@ -18,12 +17,15 @@ class GetTodolistPaginator
     {
         $search = $this->filters['search'] ?? null;
         $limit = $this->filters['limit'] ?? 30;
-        $archived = $this->filters['archived'] ?? false;
+        $finished = $this->filters['finished'] ?? false;
+        $todolistId = $this->filters['todolist_id'] ?? false;
 
-        return Todolist::query()
-            ->when($archived, function (Builder $query) {
-                /** @var Builder|SoftDeletes $query */
-                return $query->onlyTrashed();
+        return TodolistItem::query()
+            ->when($finished, function (Builder $query) {
+                return $query->whereNotNull('finished_at');
+            })
+            ->when($todolistId, function (Builder $query, int $todolistId) {
+                return $query->where('todolist_id', '=', $todolistId);
             })
             ->when($search, function (Builder $query, string $search) {
                 return $query

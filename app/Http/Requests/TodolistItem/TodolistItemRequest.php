@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\TodolistItem;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TodolistRequest extends FormRequest
+class TodolistItemRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +23,9 @@ class TodolistRequest extends FormRequest
     {
         return [
             'search' => 'sometimes|string|min:2',
-            'limit' => 'sometimes|numeric|min:10|max:100'
+            'limit' => 'sometimes|numeric|min:10|max:100',
+            'todolist_id' => 'sometimes|numeric|min:1|exists:todolists,id',
+            'finished' => 'sometimes|boolean'
         ];
     }
 }

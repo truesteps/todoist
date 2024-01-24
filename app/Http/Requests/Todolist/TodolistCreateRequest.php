@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Todolist;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -22,8 +22,8 @@ class TodolistCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'description' => 'sometimes|required|max:3000'
+            'name' => 'required|string|min:2|max:255|unique:todolists,name',
+            'description' => 'sometimes|string|min:2|max:3000'
         ];
     }
 }

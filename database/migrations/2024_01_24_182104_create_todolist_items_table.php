@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('todolist_id');
 
             $table->string('name')->index();
-            $table->text('description');
+            $table->text('description')->nullable();
 
             $table->dateTime('finished_at')->nullable()->index();
 

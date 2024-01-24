@@ -20,13 +20,14 @@ class CreateOrUpdateTodolist
         $description = $this->input['description'] ?? null;
 
         if (!$name) {
-            throw new RuntimeException('Name not provided.');
+            throw new RuntimeException('Name not provided');
         }
 
         $this->todolist->name = $name;
         $this->todolist->description = is_string($description) && $description !== ''
             ? strip_tags(mb_substr($description, 0, 3000))
-            : null;
+            : $this->todolist->description;
+
         $this->todolist->save();
 
         if ($this->todolist->wasRecentlyCreated) {
