@@ -23,7 +23,7 @@ class TodolistCreateRequest extends FormRequest
     {
         return [
             'name' => 'required|string|min:2|max:255|unique:todolists,name',
-            'description' => 'sometimes|string|min:2|max:3000'
+            'description' => 'sometimes|nullable|string|min:2|max:3000'
         ];
     }
 }

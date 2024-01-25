@@ -26,7 +26,7 @@ class CreateOrUpdateTodolist
         $this->todolist->name = $name;
         $this->todolist->description = is_string($description) && $description !== ''
             ? strip_tags(mb_substr($description, 0, 3000))
-            : $this->todolist->description;
+            : null;
 
         $this->todolist->save();
 

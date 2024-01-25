@@ -24,7 +24,7 @@ class TodolistItemUpdateRequest extends FormRequest
         return [
             'todolist_id' => 'prohibited',
             'name' => 'sometimes|string|min:2|max:255',
-            'description' => 'sometimes|string|min:2|max:3000',
+            'description' => 'sometimes|nullable|string|min:2|max:3000',
             'finished' => 'sometimes|boolean'
         ];
     }

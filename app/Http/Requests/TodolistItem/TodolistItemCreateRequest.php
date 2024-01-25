@@ -24,7 +24,7 @@ class TodolistItemCreateRequest extends FormRequest
         return [
             'todolist_id' => 'required|numeric|min:1|exists:todolists,id',
             'name' => 'required|string|min:2|max:255|unique:todolist_items,name',
-            'description' => 'sometimes|string|min:2|max:3000',
+            'description' => 'sometimes|nullable|string|min:2|max:3000',
             'finished' => 'sometimes|boolean'
         ];
     }
