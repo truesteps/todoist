@@ -28,7 +28,7 @@ class CreateOrUpdateTodolistItem
         }
 
         $this->todolistItem->todolist_id = $todolistId ?? $this->todolistItem->todolist_id;
-        $this->todolistItem->name = $name ?? $this->todolistItem->name;
+        $this->todolistItem->name = strip_tags($name ?? $this->todolistItem->name);
 
         if (array_key_exists('description', $this->input)) {
             $description = $this->input['description'] ?? null;

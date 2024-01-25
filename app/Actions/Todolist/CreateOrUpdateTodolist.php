@@ -22,7 +22,7 @@ class CreateOrUpdateTodolist
             throw new RuntimeException('Name not provided');
         }
 
-        $this->todolist->name = $name;
+        $this->todolist->name = strip_tags($name);
 
         if (array_key_exists('description', $this->input)) {
             $description = $this->input['description'] ?? null;
