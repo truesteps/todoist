@@ -17,12 +17,16 @@ class GetTodolistItemPaginator
     {
         $search = $this->filters['search'] ?? null;
         $limit = $this->filters['limit'] ?? 30;
-        $finished = $this->filters['finished'] ?? false;
+        $finished = $this->filters['finished'] ?? null;
         $todolistId = $this->filters['todolist_id'] ?? false;
 
         return TodolistItem::query()
-            ->when($finished, function (Builder $query) {
-                return $query->whereNotNull('finished_at');
+            ->when($finished !== null, function (Builder $query) use ($finished) {
+                if ($finished) {
+                    return $query->whereNotNull('finished_at');
+                }
+
+                return $query->whereNull('finished_at');
             })
             ->when($todolistId, function (Builder $query, int $todolistId) {
                 return $query->where('todolist_id', '=', $todolistId);
