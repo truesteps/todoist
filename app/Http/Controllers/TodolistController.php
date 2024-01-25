@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Actions\Todolist\CreateOrUpdateTodolist;
 use App\Actions\Todolist\DestroyTodolist;
 use App\Actions\Todolist\GetTodolistPaginator;
+use App\Actions\TodolistItem\GetTodolistItemPaginator;
 use App\Http\Requests\Todolist\TodolistCreateRequest;
 use App\Http\Requests\Todolist\TodolistRequest;
+use App\Http\Requests\Todolist\TodolistShowRequest;
 use App\Models\Todolist;
 use Illuminate\Http\JsonResponse;
 
@@ -43,13 +45,20 @@ class TodolistController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param TodolistShowRequest $request
      * @param Todolist $todolist
      * @return JsonResponse
      */
-    public function show(Todolist $todolist): JsonResponse
+    public function show(TodolistShowRequest $request, Todolist $todolist): JsonResponse
     {
+        $filters = [
+            ...$request->validated(),
+            'todolist_id' => $todolist->id,
+        ];
+
         return response()->json([
             'todolist' => $todolist,
+            'todolistItemPaginator' => (new GetTodolistItemPaginator($filters))->handle(),
         ]);
     }
 

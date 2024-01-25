@@ -28,9 +28,11 @@ class GetTodolistItemPaginator
                 return $query->where('todolist_id', '=', $todolistId);
             })
             ->when($search, function (Builder $query, string $search) {
-                return $query
-                    ->where('name', 'like', '%' . $search . '%')
-                    ->orWhere('description', 'like', '%' . $search . '%');
+                return $query->where(function (Builder $query) use ($search) {
+                    return $query
+                        ->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('description', 'like', '%' . $search . '%');
+                });
             })
             ->paginate($limit);
     }

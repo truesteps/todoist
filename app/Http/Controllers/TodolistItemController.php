@@ -50,6 +50,7 @@ class TodolistItemController extends Controller
     public function show(TodolistItem $todolistItem): JsonResponse
     {
         return response()->json([
+            'todolist' => $todolistItem->todolist,
             'todolistItem' => $todolistItem,
         ]);
     }

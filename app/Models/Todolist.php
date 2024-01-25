@@ -37,10 +37,6 @@ class Todolist extends Model
         'id' => 'integer',
     ];
 
-    protected $with = [
-        'todolist_items'
-    ];
-
     // region Relationships
 
     public function todolist_items(): HasMany
