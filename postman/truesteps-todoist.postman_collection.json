@@ -70,6 +70,18 @@
 								"api",
 								"todolist",
 								"2"
+							],
+							"query": [
+								{
+									"key": "finished",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "bowing",
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -335,14 +347,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/api/todolist-item/1",
+							"raw": "{{url}}/api/todolist-item/3",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"api",
 								"todolist-item",
-								"1"
+								"3"
 							]
 						}
 					},
