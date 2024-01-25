@@ -30,6 +30,7 @@ class GetTodolistPaginator
                     ->where('name', 'like', '%' . $search . '%')
                     ->orWhere('description', 'like', '%' . $search . '%');
             })
+            ->withCount('todolist_items')
             ->paginate($limit);
     }
 }

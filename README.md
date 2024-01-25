@@ -26,6 +26,6 @@ cp .env.example .env
 ## ToDo
 
 - [x] basic creation of Todolists and Todolist Items
-- [ ] create factories and seeders
+- [x] create factories and seeders
 - [ ] write tests
 - [ ] add extras if there's time for it
