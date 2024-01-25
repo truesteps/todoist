@@ -18,7 +18,6 @@ class CreateOrUpdateTodolistItem
     {
         $todolistId = $this->input['todolist_id'] ?? null;
         $name = $this->input['name'] ?? null;
-        $description = $this->input['description'] ?? null;
 
         if (!$this->todolistItem->exists && !$todolistId) {
             throw new RuntimeException('When creating todolist item, todolist_id must be provided');
@@ -30,9 +29,14 @@ class CreateOrUpdateTodolistItem
 
         $this->todolistItem->todolist_id = $todolistId ?? $this->todolistItem->todolist_id;
         $this->todolistItem->name = $name ?? $this->todolistItem->name;
-        $this->todolistItem->description = is_string($description) && $description !== ''
-            ? strip_tags(mb_substr($description, 0, 3000))
-            : $this->todolistItem->description;
+
+        if (array_key_exists('description', $this->input)) {
+            $description = $this->input['description'] ?? null;
+
+            $this->todolistItem->description = is_string($description) && $description !== ''
+                ? strip_tags(mb_substr($description, 0, 3000))
+                : null;
+        }
 
         // check todolist item as finished
         if (

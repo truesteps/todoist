@@ -17,16 +17,20 @@ class CreateOrUpdateTodolist
     public function handle(): Todolist
     {
         $name = $this->input['name'] ?? null;
-        $description = $this->input['description'] ?? null;
 
         if (!$name) {
             throw new RuntimeException('Name not provided');
         }
 
         $this->todolist->name = $name;
-        $this->todolist->description = is_string($description) && $description !== ''
-            ? strip_tags(mb_substr($description, 0, 3000))
-            : null;
+
+        if (array_key_exists('description', $this->input)) {
+            $description = $this->input['description'] ?? null;
+
+            $this->todolist->description = is_string($description) && $description !== ''
+                ? strip_tags(mb_substr($description, 0, 3000))
+                : null;
+        }
 
         $this->todolist->save();
 
