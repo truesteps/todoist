@@ -2,9 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Events\TodolistItem\TodolistItemTransitioned;
+use App\Events\TodolistItem\TodolistItemUpdated;
 use App\Models\Todolist;
 use App\Models\TodolistItem;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Event;
 use Random\RandomException;
 use Tests\TestCase;
 
@@ -109,6 +112,8 @@ class TodolistItemTest extends TestCase
      */
     public function test_the_application_can_create_todolist_item_when_store_called(): void
     {
+        Event::fake();
+
         /** @var Todolist|null $todolist */
         $todolist = Todolist::query()->inRandomOrder()->first();
 
@@ -135,6 +140,8 @@ class TodolistItemTest extends TestCase
         $this->assertEquals($name, $response->json('todolistItem.name'));
         // response returned todolistItem with description provided
         $this->assertEquals($description, $response->json('todolistItem.description'));
+        // TodolistItemTransitioned event dispatched
+        Event::assertDispatched(TodolistItemTransitioned::class);
     }
 
     /**
@@ -143,6 +150,8 @@ class TodolistItemTest extends TestCase
      */
     public function test_the_application_cannot_create_todolist_item_without_todolist_id_when_store_called(): void
     {
+        Event::fake();
+
         $name = fake()->realText(150);
         $description = random_int(0, 100) > 50 ? fake()->realTextBetween(2, 300) : null;
 
@@ -155,6 +164,8 @@ class TodolistItemTest extends TestCase
         $response->assertStatus(422);
         // response contains error with todolist_id key
         $response->assertJsonValidationErrors(['todolist_id']);
+        // TodolistItemTransitioned event dispatched
+        Event::assertNotDispatched(TodolistItemTransitioned::class);
     }
 
     /**
@@ -163,6 +174,8 @@ class TodolistItemTest extends TestCase
      */
     public function test_the_application_can_update_todolist_item_when_update_called(): void
     {
+        Event::fake();
+
         /** @var TodolistItem|null $todolistItem */
         $todolistItem = TodolistItem::query()->inRandomOrder()->first();
 
@@ -187,6 +200,8 @@ class TodolistItemTest extends TestCase
         $this->assertEquals($description, $response->json('todolistItem.description'));
         // response todolistItem has been finished
         $this->assertNotNull($response->json('todolistItem.finished_at'));
+        // TodolistItemUpdated event dispatched
+        Event::assertDispatched(TodolistItemUpdated::class);
     }
 
     /**
@@ -194,6 +209,8 @@ class TodolistItemTest extends TestCase
      */
     public function test_the_application_cannot_update_todolist_id_in_todolist_item_when_update_called(): void
     {
+        Event::fake();
+
         /** @var TodolistItem|null $todolistItem */
         $todolistItem = TodolistItem::query()->inRandomOrder()->first();
         /** @var TodolistItem|null $todolistItem2 */
@@ -211,6 +228,8 @@ class TodolistItemTest extends TestCase
         $response->assertStatus(422);
         // response contains error with todolist_id key
         $response->assertJsonValidationErrors(['todolist_id']);
+        // TodolistItemUpdated event not dispatched
+        Event::assertNotDispatched(TodolistItemUpdated::class);
     }
 
     /**

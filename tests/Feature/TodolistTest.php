@@ -2,9 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Events\Todolist\TodolistTransitioned;
+use App\Events\Todolist\TodolistUpdated;
 use App\Models\Todolist;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Event;
 use Random\RandomException;
 use Tests\TestCase;
 
@@ -188,6 +191,8 @@ class TodolistTest extends TestCase
      */
     public function test_the_application_can_create_todolist_when_store_called(): void
     {
+        Event::fake();
+
         $name = fake()->realText(150);
         $description = random_int(0, 100) > 50 ? fake()->realTextBetween(2, 300) : null;
 
@@ -206,6 +211,8 @@ class TodolistTest extends TestCase
         $this->assertEquals($name, $response->json('todolist.name'));
         // response returned todolist with description provided
         $this->assertEquals($description, $response->json('todolist.description'));
+        // TodolistTransitioned event dispatched
+        Event::assertDispatched(TodolistTransitioned::class);
     }
 
     /**
@@ -213,12 +220,16 @@ class TodolistTest extends TestCase
      */
     public function test_the_application_cannot_create_todolist_without_a_name_when_store_called(): void
     {
+        Event::fake();
+
         $response = $this->post('/api/todolist');
 
         // response is successful
         $response->assertStatus(422);
         // response contains error with name key
         $response->assertJsonValidationErrors(['name']);
+        // TodolistTransitioned event dispatched
+        Event::assertNotDispatched(TodolistTransitioned::class);
     }
 
     /**
@@ -227,6 +238,8 @@ class TodolistTest extends TestCase
      */
     public function test_the_application_can_update_todolist_when_update_called(): void
     {
+        Event::fake();
+
         /** @var Todolist|null $todolist */
         $todolist = Todolist::query()->inRandomOrder()->first();
 
@@ -248,6 +261,8 @@ class TodolistTest extends TestCase
         $this->assertEquals($name, $response->json('todolist.name'));
         // response returned todolist with description provided
         $this->assertEquals($description, $response->json('todolist.description'));
+        // TodolistUpdated event dispatched
+        Event::assertDispatched(TodolistUpdated::class);
     }
 
     /**
@@ -255,6 +270,8 @@ class TodolistTest extends TestCase
      */
     public function test_the_application_can_delete_todolist_when_destroy_called(): void
     {
+        Event::fake();
+
         /** @var Todolist|null $todolist */
         $todolist = Todolist::query()->inRandomOrder()->first();
 
@@ -268,6 +285,8 @@ class TodolistTest extends TestCase
         $response->assertStatus(204);
         // todolist was soft-deleted
         $this->assertSoftDeleted($todolist);
+        // TodolistTransitioned event dispatched
+        Event::assertDispatched(TodolistTransitioned::class);
     }
 
     /**
